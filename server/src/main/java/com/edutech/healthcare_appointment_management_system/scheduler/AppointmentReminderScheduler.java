@@ -50,7 +50,7 @@ public class AppointmentReminderScheduler {
     }
 
     private void sendReminder(Appointment appt, String message) {
-        // Persist DB notification
+        // DB notification
         notificationService.createNotification(appt.getPatient().getUser().getId(), message, "REMINDER");
         
         // Push realtime via SSE

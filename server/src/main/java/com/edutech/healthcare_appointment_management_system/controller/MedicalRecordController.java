@@ -43,8 +43,6 @@ public class MedicalRecordController {
     public ResponseEntity<List<MedicalRecord>> getRecordsByPatientId(
             @PathVariable Long patientId,
             Authentication authentication) {
-        // Because a patient should only see their own, Receptionists can see all, Doctors can only see patients they've treated.
-        // We'll trust SecurityConfig to handle base route authorities and the service to handle deep checks if needed.
         return ResponseEntity.ok(medicalRecordService.getByPatientId(patientId));
     }
 

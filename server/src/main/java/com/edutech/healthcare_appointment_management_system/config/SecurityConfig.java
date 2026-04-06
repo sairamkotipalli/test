@@ -31,13 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    // ✅ Authentication setup
+    //Authentication setup
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
-    // ✅ Security config
+    //Security config
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    // ✅ CORS configuration (allow all domains)
+    // CORS configuration (allows all domains)
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
 
@@ -73,13 +73,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    // ✅ Password encoder
+    //Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ Authentication manager
+    //Authentication manager
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

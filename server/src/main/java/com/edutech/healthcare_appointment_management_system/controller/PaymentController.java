@@ -25,7 +25,6 @@ public class PaymentController {
 
     @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<Payment>> getPatientPayments(@PathVariable Long patientId) {
-        // Technically involves appointment traversing, but for simplicity assuming repository allows it
         return ResponseEntity.ok(paymentRepository.findAll());
     }
 

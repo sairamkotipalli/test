@@ -31,7 +31,6 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         
-        // 1. ALWAYS ensure the admin exists, regardless of other users!
         if (userRepository.findByUsername("admin").isEmpty()) {
             User adminUser = User.builder()
                     .username("admin")

@@ -24,9 +24,9 @@ public class HealthcareAppointmentManagementApplication {
                 jdbcTemplate.execute("ALTER TABLE patients MODIFY id BIGINT AUTO_INCREMENT;");
                 jdbcTemplate.execute("ALTER TABLE doctors MODIFY id BIGINT AUTO_INCREMENT;");
                 jdbcTemplate.execute("ALTER TABLE receptionists MODIFY id BIGINT AUTO_INCREMENT;");
-                System.out.println("✅ DATABASE AUTO_INCREMENT CONSTRAINTS FIXED!");
+                System.out.println("DATABASE AUTO_INCREMENT CONSTRAINTS FIXED!");
             } catch (Exception e) {
-                System.out.println("⚠️ DB Auto-Increment Fix Skipped (Tables may not exist yet or are already correct).");
+                System.out.println("DB Auto-Increment Fix Skipped (Tables may not exist yet or are already correct).");
             }
         };
     }
