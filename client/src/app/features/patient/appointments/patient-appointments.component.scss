@@ -1,0 +1,176 @@
+// ─── Theme Variables ───
+$panel-bg:      rgba(255, 255, 255, 0.07);
+$border-color:  rgba(255, 255, 255, 0.10);
+$white:         #ffffff;
+$muted:         rgba(255, 255, 255, 0.6);
+$accent:        #7c6fe0;
+
+// ─── Header Section ───
+.page-title {
+  color: $white;
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  color: $muted;
+  margin-top: 0.25rem;
+  margin-bottom: 2rem;
+}
+
+// ─── The Main Glass Card ───
+.card {
+  background: $panel-bg !important;
+  border: 1px solid $border-color !important;
+  border-radius: 16px;
+  padding: 0; // Padding handled by table-container
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+// ─── Table Styling ───
+.table-container {
+  padding: 1rem;
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+    color: $white;
+
+    thead {
+      tr {
+        border-bottom: 2px solid $border-color;
+      }
+      th {
+        padding: 16px;
+        text-align: left;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $accent;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid $border-color;
+        transition: background 0.2s ease;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.03);
+        }
+      }
+
+      td {
+        padding: 16px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.9);
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.notes-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: $muted !important;
+}
+
+// ─── Modal Styles ───
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 12, 41, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: #1a1645; // Matching deep theme
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
+  color: $white;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  margin: 0;
+  color: $white;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: $muted;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  color: #f87171;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+textarea.form-control {
+  resize: vertical;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid $border-color;
+  color: $white;
+}
+
+// Ensure "No Data" text is visible
+.text-center {
+  color: $muted !important;
+}
+
+// ─── FIX: Make Cancela/Clear Button Visible in Dark Theme ───
+.btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: #ffffff !important;
+}

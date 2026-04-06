@@ -1,0 +1,188 @@
+<div class="auth-page">
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <div class="heartbeat-bg">
+    <svg viewBox="0 0 1000 150" preserveAspectRatio="none">
+      <path class="ekg-line" d="M0,75 L300,75 L320,40 L360,130 L390,20 L420,110 L440,75 L1000,75"></path>
+    </svg>
+  </div>
+
+  <div class="floating-particles">
+    <div class="particle p1">+</div>
+    <div class="particle p2">+</div>
+    <div class="particle p3">+</div>
+    <div class="particle p4">+</div>
+    <div class="particle p5">+</div>
+  </div>
+
+  <a routerLink="/" class="back-to-home-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Home
+  </a>
+
+  <div class="auth-container wide fade-in">
+
+    <div class="auth-logo">
+      <h1>Create Account</h1>
+      <p>Join the Healthcare Management System</p>
+    </div>
+
+    <div class="role-selector">
+      <div *ngFor="let role of roles" class="role-card"
+           [class.selected]="selectedRole === role.value"
+           (click)="selectRole(role.value)">
+        <img [src]="role.icon" class="role-card-icon-img">
+        <span class="role-card-label">{{ role.label }}</span>
+        <span class="role-card-desc">{{ role.desc }}</span>
+      </div>
+    </div>
+
+    <div class="auth-card glass">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text"
+                   class="form-control"
+                   formControlName="name"
+                   [class.is-invalid]="shouldShowError('name')">
+            <div class="invalid-feedback" *ngIf="hasError('name', 'required')">
+              Full name is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text"
+                   class="form-control"
+                   formControlName="username"
+                   [class.is-invalid]="shouldShowError('username')">
+            <div class="invalid-feedback" *ngIf="shouldShowError('username')">
+              <ng-container *ngIf="hasError('username', 'required')">Username is required</ng-container>
+              <ng-container *ngIf="hasError('username', 'minlength') || hasError('username', 'maxlength')">
+                3-50 characters required
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email"
+                   class="form-control"
+                   formControlName="email"
+                   [class.is-invalid]="shouldShowError('email')">
+            <div class="invalid-feedback" *ngIf="shouldShowError('email')">
+              <ng-container *ngIf="hasError('email', 'required')">Email is required</ng-container>
+              <ng-container *ngIf="hasError('email', 'email')">Valid email required</ng-container>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+
+            <input [type]="showPassword ? 'text' : 'password'"
+                   class="form-control"
+                   formControlName="password"
+                   placeholder="Minimum 8 characters"
+                   [class.is-invalid]="shouldShowError('password')"
+                   (focus)="onPasswordFocus()"
+                   (blur)="onPasswordBlur()"
+                   (input)="onPasswordInput()">
+
+            <div class="password-dropdown" *ngIf="showRules">
+              <div class="title">Password must contain:</div>
+
+              <div class="rule" [class.valid]="hasMinLength()">
+                <span class="icon">{{ hasMinLength() ? '✔' : '✖' }}</span>
+                Minimum 8 characters
+              </div>
+
+              <div class="rule" [class.valid]="hasUpperCase()">
+                <span class="icon">{{ hasUpperCase() ? '✔' : '✖' }}</span>
+                One uppercase letter
+              </div>
+
+              <div class="rule" [class.valid]="hasLowerCase()">
+                <span class="icon">{{ hasLowerCase() ? '✔' : '✖' }}</span>
+                One lowercase letter
+              </div>
+
+              <div class="rule" [class.valid]="hasNumber()">
+                <span class="icon">{{ hasNumber() ? '✔' : '✖' }}</span>
+                One number
+              </div>
+
+              <div class="rule" [class.valid]="hasSpecialChar()">
+                <span class="icon">{{ hasSpecialChar() ? '✔' : '✖' }}</span>
+                One special character
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="text" class="form-control" formControlName="phone">
+          </div>
+
+          <div class="form-group" *ngIf="selectedRole === 'PATIENT'">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" formControlName="address">
+          </div>
+        </div>
+
+        <div *ngIf="selectedRole === 'DOCTOR'" class="doctor-fields">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Specialty</label>
+              <select class="form-control"
+                      formControlName="specialty"
+                      [class.is-invalid]="shouldShowError('specialty')">
+                <option value="">Select</option>
+                <option *ngFor="let s of specialties" [value]="s">{{ s }}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="hasError('specialty', 'required')">
+                Specialty is required
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Availability</label>
+              <input type="text"
+                     class="form-control"
+                     formControlName="availability"
+                     [class.is-invalid]="shouldShowError('availability')">
+              <div class="invalid-feedback" *ngIf="hasError('availability', 'required')">
+                Availability is required
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-wrapper">
+          <button type="submit"
+                  class="btn btn-primary reg-submit-btn"
+                  [disabled]="isLoading">
+            {{ isLoading ? 'Registering...' : 'Create Account' }}
+          </button>
+        </div>
+
+      </form>
+
+      <div class="auth-footer">
+        <p>Already have an account? <a routerLink="/login">Sign in →</a></p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,369 @@
+// ─── Design Tokens ────────────────────────────────────────
+$bg-gradient:   linear-gradient(135deg, #1a1060 0%, #2d1b8e 40%, #1e1565 100%);
+$panel-bg:      rgba(255, 255, 255, 0.07);
+$border:        rgba(255, 255, 255, 0.10);
+$white:         #ffffff;
+$muted:         rgba(255, 255, 255, 0.55);
+$accent:        #7c6fe0;
+$radius-lg:     16px;
+$radius-md:     14px;
+$radius-sm:     10px;
+
+// ─── Page Shell ───────────────────────────────────────────
+.pd-page {
+  min-height: 100vh;
+  background: $bg-gradient;
+  padding: 28px 32px;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  color: $white;
+  box-sizing: border-box;
+}
+
+// ─── Hero ─────────────────────────────────────────────────
+.pd-hero {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 28px 32px 0;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.pd-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.pd-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.pd-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c6fe0, #5b4fcf);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: $white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(124, 111, 224, 0.45);
+}
+
+.pd-welcome {
+  margin: 0;
+  font-size: 13px;
+  color: $muted;
+  font-weight: 400;
+}
+
+.pd-name {
+  margin: 4px 0 2px;
+  font-size: 28px;
+  font-weight: 700;
+  color: $white;
+}
+
+.pd-date {
+  font-size: 13px;
+  color: $muted;
+}
+
+// ─── Light Blue Button ───
+.pd-book-btn {
+  background: rgba(56, 189, 248, 0.25);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  border-radius: $radius-sm;
+  color: #e0f2fe; 
+  padding: 10px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+
+  &:hover {
+    background: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 0 18px rgba(56, 189, 248, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+// ─── Stats Bar ────────────────────────────────────────────
+.pd-stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 0;
+  border-top: 1px solid $border;
+  padding: 16px 0;
+}
+
+.pd-stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 4px;
+  padding: 0 24px;
+}
+
+.pd-stat-num {
+  font-size: 26px;
+  font-weight: 700;
+  color: $white;
+  line-height: 1;
+}
+
+.pd-stat-label {
+  font-size: 13px;
+  color: $muted;
+}
+
+.pd-stat-divider {
+  width: 1px;
+  height: 32px;
+  background: $border;
+  flex-shrink: 0;
+}
+
+// ─── Bottom Grid ──────────────────────────────────────────
+.pd-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 14px;
+}
+
+// ─── Panel (shared) ───────────────────────────────────────
+.pd-panel {
+  background: $panel-bg;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  padding: 22px 24px;
+  backdrop-filter: blur(6px);
+  margin-bottom: 14px;
+
+  h3 {
+    margin: 0 0 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: $white;
+  }
+}
+
+.pd-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 { margin: 0; }
+}
+
+.pd-view-all {
+  background: transparent;
+  border: none;
+  color: $accent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+// ─── Appointment Row ──────────────────────────────────────
+.pd-apt-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid $border;
+
+  &:last-child { border-bottom: none; }
+}
+
+.pd-apt-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(124, 111, 224, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: $white;
+  flex-shrink: 0;
+  text-transform: lowercase;
+}
+
+.pd-apt-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-apt-doc-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: $white;
+}
+
+.pd-apt-specialty {
+  font-size: 12px;
+  color: $muted;
+  margin-top: 2px;
+}
+
+.pd-apt-time {
+  font-size: 13px;
+  color: $muted;
+  white-space: nowrap;
+}
+
+// ─── Status Badges ───────────────────────────────
+.pd-status-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+
+  /* SCHEDULED -> YELLOW */
+  &.scheduled {
+    background: rgba(250, 204, 21, 0.20); 
+    color: #fef08a;
+    border: 1px solid rgba(250, 204, 21, 0.40);
+  }
+
+  /* PENDING -> VIBRANT ORANGE */
+  &.pending {
+    background: rgba(255, 152, 0, 0.20); 
+    color: #ffb74d; 
+    border: 1px solid rgba(255, 152, 0, 0.40);
+  }
+
+  /* COMPLETED -> GREEN */
+  &.completed {
+    background: rgba(52, 211, 153, 0.20);
+    color: #6ee7b7;
+    border: 1px solid rgba(52, 211, 153, 0.35);
+  }
+
+  /* CANCELLED -> RED */
+  &.cancelled {
+    background: rgba(248, 113, 113, 0.20);
+    color: #fca5a5;
+    border: 1px solid rgba(248, 113, 113, 0.35);
+  }
+}
+
+// ─── Right Column ─────────────────────────────────────────
+.pd-right-col {
+  display: flex;
+  flex-direction: column;
+}
+
+// ─── Profile ──────────────────────────────────────────────
+.pd-profile-name {
+  margin: 8px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+}
+
+.pd-profile-phone {
+  margin: 0;
+  font-size: 13px;
+  color: $muted;
+}
+
+// ─── Vitals ───────────────────────────────────────────────
+.pd-vitals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.pd-vital {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: $radius-sm;
+  padding: 12px 14px;
+  border: 1px solid $border;
+
+  h4 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: $white;
+  }
+
+  p {
+    margin: 4px 0 0;
+    font-size: 11px;
+    color: $muted;
+  }
+}
+
+// ─── BMI ──────────────────────────────────────────────────
+.pd-bmi-category {
+  margin: 4px 0 12px;
+  font-size: 14px;
+  color: $muted;
+}
+
+.pd-bmi-scale {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  overflow: visible;
+  display: flex;
+  margin-bottom: 6px;
+}
+
+.pd-bmi-under  { flex: 1; background: #60a5fa; border-radius: 999px 0 0 999px; }
+.pd-bmi-normal { flex: 1; background: #34d399; }
+.pd-bmi-over   { flex: 1; background: #fbbf24; }
+.pd-bmi-obese  { flex: 1; background: #f87171; border-radius: 0 999px 999px 0; }
+
+.pd-bmi-marker {
+  position: absolute;
+  top: -3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: $white;
+  border: 2px solid #1a1060;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  z-index: 1;
+}
+
+.pd-bmi-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: $muted;
+  margin-top: 6px;
+}
+
+// ─── Responsive ───────────────────────────────────────────
+@media (max-width: 900px) {
+  .pd-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pd-page { padding: 16px; }
+  .pd-hero { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .pd-stats-bar { padding: 16px; }
+}

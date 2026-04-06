@@ -1,0 +1,223 @@
+.auth-page {
+  min-height: 100vh; 
+  padding: 2rem 1rem;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  position: relative; 
+  overflow: hidden;
+}
+
+.bg-orb { 
+  position: absolute; 
+  border-radius: 50%; 
+  filter: blur(80px); 
+  opacity: 0.3; 
+  animation: pulse 4s ease-in-out infinite; 
+}
+.orb-1 { width: 400px; height: 400px; background: #6366f1; top: -100px; left: -100px; }
+.orb-2 { width: 300px; height: 300px; background: #06b6d4; bottom: -80px; right: -80px; animation-delay: 2s; }
+
+/* BACK BUTTON */
+.back-to-home-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.back-to-home-btn:hover {
+  color: #ffffff;
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+  transform: translateX(-4px); 
+}
+
+.auth-container { 
+  width: 100%; 
+  max-width: 750px; 
+  position: relative; 
+  z-index: 1; 
+}
+
+.auth-logo { text-align: center; margin-bottom: 2rem; }
+.auth-logo h1 { 
+  font-size: 2rem; 
+  font-weight: 800; 
+  background: linear-gradient(135deg, #a5b4fc, #06b6d4); 
+  -webkit-background-clip: text; 
+  background-clip: text; 
+  -webkit-text-fill-color: transparent; 
+}
+.auth-logo p { color: #94a3b8; font-size: 0.95rem; margin-top: 0.25rem; }
+
+/* ROLE SELECTOR */
+.role-selector { 
+  display: flex; 
+  gap: 0.5rem; 
+  margin-bottom: -2px; 
+  padding: 0; 
+  align-items: flex-end; 
+  position: relative;
+  z-index: 10; 
+}
+
+.role-card {
+  flex: 1; 
+  padding: 1.25rem 0.5rem; 
+  border: 2px solid rgba(255,255,255,0.08);
+  border-bottom: 2px solid #6366f1; 
+  background: rgba(22, 33, 62, 0.4); 
+  cursor: pointer;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 0.5rem;
+  transition: all 0.3s ease; 
+  text-align: center;
+  position: relative; 
+  border-radius: 12px 12px 0 0; 
+}
+
+.role-card:first-child { border-top-left-radius: 20px; }
+.role-card:last-child { border-top-right-radius: 20px; }
+
+.role-card:hover { 
+  background: rgba(99,102,241,0.15); 
+}
+
+.role-card.selected { 
+  background: #16213e; 
+  border: 2px solid #6366f1; 
+  border-bottom: none; 
+  padding-top: 1.75rem; 
+  padding-bottom: calc(1.25rem + 2px); 
+}
+
+.role-card.selected::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; 
+  left: 0;
+  right: 0;
+  height: 6px; 
+  background: #16213e; 
+  z-index: 15; 
+}
+
+/* ICONS */
+.role-card-icon-img {
+  width: 75px;  
+  height: 75px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.role-card:hover .role-card-icon-img { 
+  transform: scale(1.08); 
+}
+
+.role-card.selected .role-card-icon-img {
+  border-color: #a5b4fc;
+  box-shadow: 0 0 20px rgba(99,102,241,0.4);
+  transform: scale(1.15); 
+}
+
+.role-card-label { font-size: 0.85rem; font-weight: 800; color: #f1f5f9; }
+.role-card-desc { font-size: 0.7rem; color: #94a3b8; }
+
+/* FORM */
+.auth-card { 
+  padding: 2.5rem 2rem 2rem; 
+  background: #16213e; 
+  border: 2px solid #6366f1; 
+  border-radius: 0 0 20px 20px; 
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.submit-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem; 
+}
+
+.reg-submit-btn {
+  width: 60%; 
+}
+
+/* MOBILE */
+@media (max-width: 600px) { 
+  .form-row { grid-template-columns: 1fr; } 
+  .reg-submit-btn { width: 100%; }
+}
+
+.doctor-fields .form-label,
+.doctor-fields label {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+}
+
+.auth-footer { text-align: center; margin-top: 2rem; }
+
+/* =========================================================
+   PASSWORD DROPDOWN (UPDATED)
+   ========================================================= */
+
+.password-dropdown {
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(22, 33, 62, 0.95);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* title */
+.password-dropdown .title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #cbd5f5;
+}
+
+/* rules */
+.password-dropdown .rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  margin: 4px 0;
+  color: #ef4444; /* red initially */
+}
+
+/* icon */
+.password-dropdown .icon {
+  width: 16px;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+/* valid state */
+.password-dropdown .rule.valid {
+  color: #22c55e;
+}
