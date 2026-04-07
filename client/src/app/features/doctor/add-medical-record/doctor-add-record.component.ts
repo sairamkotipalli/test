@@ -13,7 +13,9 @@ import { AlertService } from '../../../core/services/alert.service';
       <div class="page-header mb-5">
         <div>
           <h1 class="page-title text-white">Add Medical Record</h1>
-          <p class="page-subtitle text-muted-light">Patient: <span class="text-primary-light font-bold">{{patientName}}</span></p>
+          <p class="page-subtitle text-muted-light">
+            Patient: <span class="text-primary-light font-bold">{{patientName}}</span>
+          </p>
         </div>
       </div>
 
@@ -22,19 +24,22 @@ import { AlertService } from '../../../core/services/alert.service';
           
           <div class="form-grid mb-4">
             <div class="form-group">
-              <label class="text-indigo-400">Age</label>
+              <label class="text-indigo-400">Age <span class="required-asterisk">*</span></label>
               <input type="number" formControlName="age" class="form-control glass-input">
             </div>
+
             <div class="form-group">
-              <label class="text-indigo-400">Weight (kg)</label>
+              <label class="text-indigo-400">Weight (kg) <span class="required-asterisk">*</span></label>
               <input type="number" formControlName="weight" class="form-control glass-input">
             </div>
+
             <div class="form-group">
-              <label class="text-indigo-400">Height (cm)</label>
+              <label class="text-indigo-400">Height (cm) <span class="required-asterisk">*</span></label>
               <input type="number" formControlName="height" class="form-control glass-input">
             </div>
+
             <div class="form-group">
-              <label class="text-indigo-400">Blood Pressure</label>
+              <label class="text-indigo-400">Blood Pressure <span class="required-asterisk">*</span></label>
               <input type="text" formControlName="bp" class="form-control glass-input" placeholder="e.g. 120/80">
             </div>
           </div>
@@ -45,12 +50,12 @@ import { AlertService } from '../../../core/services/alert.service';
           </div>
 
           <div class="form-group mb-4">
-            <label class="text-indigo-400">Symptoms <span class="text-danger">*</span></label>
+            <label class="text-indigo-400">Symptoms <span class="required-asterisk">*</span></label>
             <textarea formControlName="symptoms" class="form-control glass-input" rows="3" placeholder="Describe patient symptoms..."></textarea>
           </div>
 
           <div class="form-group mb-4">
-            <label class="text-indigo-400">Diagnosis <span class="text-danger">*</span></label>
+            <label class="text-indigo-400">Diagnosis <span class="required-asterisk">*</span></label>
             <textarea formControlName="diagnosis" class="form-control glass-input" rows="3" placeholder="Enter formal diagnosis..."></textarea>
           </div>
 
@@ -61,12 +66,21 @@ import { AlertService } from '../../../core/services/alert.service';
             </div>
             
             <div formArrayName="prescription">
-              <div class="prescription-item glass-panel-inner" *ngFor="let item of prescription.controls; let i=index" [formGroupName]="i">
+              <div class="prescription-item glass-panel-inner"
+                   *ngFor="let item of prescription.controls; let i=index"
+                   [formGroupName]="i">
                 
                 <div class="flex-align justify-between border-bottom-dark pb-2 mb-3">
                   <span class="text-primary-light font-bold">Medication #{{i + 1}}</span>
-                  <button *ngIf="prescription.length > 1" type="button" class="btn-sm btn-text-danger" (click)="removePrescriptionItem(i)">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="inline-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                  <button *ngIf="prescription.length > 1"
+                          type="button"
+                          class="btn-sm btn-text-danger"
+                          (click)="removePrescriptionItem(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" class="inline-icon">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
                     Remove
                   </button>
                 </div>
@@ -117,7 +131,7 @@ import { AlertService } from '../../../core/services/alert.service';
     .history-container {
       padding: 2.5rem;
       min-height: 100vh;
-      background: #0f172a; /* Deep Navy Theme */
+      background: #0f172a;
       position: relative;
       overflow: hidden;
     }
@@ -134,7 +148,6 @@ import { AlertService } from '../../../core/services/alert.service';
     .page-header { position: relative; z-index: 1; }
     .page-title { font-size: 2.25rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.25rem; }
 
-    /* Glass Cards & Panels */
     .glass-card {
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(16px);
@@ -161,11 +174,9 @@ import { AlertService } from '../../../core/services/alert.service';
     }
     .glass-panel-inner:last-child { margin-bottom: 0; }
 
-    /* Grid Layouts */
     .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
     .col-span-full { grid-column: 1 / -1; }
 
-    /* Typography & Labels */
     .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 0.5rem; }
     .text-indigo-400 { color: #818cf8; }
     .text-primary-light { color: #a5b4fc; }
@@ -175,7 +186,6 @@ import { AlertService } from '../../../core/services/alert.service';
     .font-bold { font-weight: 700; }
     .text-lg { font-size: 1.125rem; }
 
-    /* Glass Inputs */
     .glass-input {
       background: rgba(255, 255, 255, 0.05) !important;
       border: 1px solid rgba(255, 255, 255, 0.1) !important;
@@ -194,7 +204,6 @@ import { AlertService } from '../../../core/services/alert.service';
       box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2) !important;
     }
 
-    /* Buttons */
     .btn-primary {
       display: inline-flex; align-items: center; justify-content: center;
       background: #6366f1; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s;
@@ -219,7 +228,6 @@ import { AlertService } from '../../../core/services/alert.service';
     }
     .btn-text-danger:hover { color: #ef4444; }
 
-    /* Utilities */
     .form-actions { display: flex; gap: 1rem; justify-content: flex-end; }
     .border-bottom-dark { border-bottom: 1px solid rgba(255,255,255,0.1); }
     .border-top-dark { border-top: 1px solid rgba(255,255,255,0.1); }
@@ -240,6 +248,13 @@ import { AlertService } from '../../../core/services/alert.service';
       border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
+
+    .required-asterisk {
+  color: #818cf8; /* same color as "ALLERGIES" text */
+  font-weight: 700;
+  margin-left: 2px;
+}
+
     @keyframes spin { to { transform: rotate(360deg); } }
   `]
 })
@@ -260,12 +275,12 @@ export class DoctorAddRecordComponent implements OnInit {
   ngOnInit(): void {
     this.appointmentId = Number(this.route.snapshot.paramMap.get('id'));
     this.patientName = this.route.snapshot.queryParamMap.get('patientName') ?? 'Unknown Patient';
-    
+
     this.recordForm = this.fb.group({
-      age: [null],
-      weight: [null],
-      height: [null],
-      bp: [''],
+      age: [null, Validators.required],
+      weight: [null, Validators.required],
+      height: [null, Validators.required],
+      bp: ['', Validators.required],
       allergies: [''],
       symptoms: ['', Validators.required],
       diagnosis: ['', Validators.required],

@@ -2,37 +2,17 @@
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
 
-  <div class="heartbeat-bg">
-    <svg viewBox="0 0 1000 150" preserveAspectRatio="none">
-      <path class="ekg-line" d="M0,75 L300,75 L320,40 L360,130 L390,20 L420,110 L440,75 L1000,75"></path>
-    </svg>
-  </div>
-
-  <div class="floating-particles">
-    <div class="particle p1">+</div>
-    <div class="particle p2">+</div>
-    <div class="particle p3">+</div>
-    <div class="particle p4">+</div>
-    <div class="particle p5">+</div>
-  </div>
-
-  <a routerLink="/" class="back-to-home-btn">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-      <line x1="19" y1="12" x2="5" y2="12"></line>
-      <polyline points="12 19 5 12 12 5"></polyline>
-    </svg>
-    Back to Home
-  </a>
+  <a routerLink="/" class="back-to-home-btn">← Back to Home</a>
 
   <div class="auth-container wide fade-in">
-
     <div class="auth-logo">
       <h1>Create Account</h1>
       <p>Join the Healthcare Management System</p>
     </div>
 
     <div class="role-selector">
-      <div *ngFor="let role of roles" class="role-card"
+      <div *ngFor="let role of roles"
+           class="role-card"
            [class.selected]="selectedRole === role.value"
            (click)="selectRole(role.value)">
         <img [src]="role.icon" class="role-card-icon-img">
@@ -44,126 +24,137 @@
     <div class="auth-card glass">
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
+        <!-- ================== ROW 1 ================== -->
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Full Name</label>
-            <input type="text"
-                   class="form-control"
+            <label class="form-label">
+              Full Name <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   type="text"
                    formControlName="name"
+                   placeholder="Enter your full name"
                    [class.is-invalid]="shouldShowError('name')">
-            <div class="invalid-feedback" *ngIf="hasError('name', 'required')">
+            <div class="invalid-feedback" *ngIf="hasError('name','required')">
               Full name is required
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Username</label>
-            <input type="text"
-                   class="form-control"
+            <label class="form-label">
+              Username <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   type="text"
                    formControlName="username"
+                   placeholder="Choose a username"
                    [class.is-invalid]="shouldShowError('username')">
             <div class="invalid-feedback" *ngIf="shouldShowError('username')">
-              <ng-container *ngIf="hasError('username', 'required')">Username is required</ng-container>
-              <ng-container *ngIf="hasError('username', 'minlength') || hasError('username', 'maxlength')">
-                3-50 characters required
-              </ng-container>
+              Username is required (3–50 chars)
             </div>
           </div>
         </div>
 
+        <!-- ================== ROW 2 ================== -->
         <div class="form-row">
-
           <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email"
-                   class="form-control"
+            <label class="form-label">
+              Email <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   type="email"
                    formControlName="email"
+                   placeholder="Enter email address"
                    [class.is-invalid]="shouldShowError('email')">
             <div class="invalid-feedback" *ngIf="shouldShowError('email')">
-              <ng-container *ngIf="hasError('email', 'required')">Email is required</ng-container>
-              <ng-container *ngIf="hasError('email', 'email')">Valid email required</ng-container>
+              Valid email is required
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Password</label>
-
-            <input [type]="showPassword ? 'text' : 'password'"
-                   class="form-control"
+            <label class="form-label">
+              Password <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   [type]="showPassword ? 'text' : 'password'"
                    formControlName="password"
                    placeholder="Minimum 8 characters"
-                   [class.is-invalid]="shouldShowError('password')"
                    (focus)="onPasswordFocus()"
                    (blur)="onPasswordBlur()"
-                   (input)="onPasswordInput()">
+                   (input)="onPasswordInput()"
+                   [class.is-invalid]="shouldShowError('password')">
 
             <div class="password-dropdown" *ngIf="showRules">
               <div class="title">Password must contain:</div>
-
-              <div class="rule" [class.valid]="hasMinLength()">
-                <span class="icon">{{ hasMinLength() ? '✔' : '✖' }}</span>
-                Minimum 8 characters
-              </div>
-
-              <div class="rule" [class.valid]="hasUpperCase()">
-                <span class="icon">{{ hasUpperCase() ? '✔' : '✖' }}</span>
-                One uppercase letter
-              </div>
-
-              <div class="rule" [class.valid]="hasLowerCase()">
-                <span class="icon">{{ hasLowerCase() ? '✔' : '✖' }}</span>
-                One lowercase letter
-              </div>
-
-              <div class="rule" [class.valid]="hasNumber()">
-                <span class="icon">{{ hasNumber() ? '✔' : '✖' }}</span>
-                One number
-              </div>
-
-              <div class="rule" [class.valid]="hasSpecialChar()">
-                <span class="icon">{{ hasSpecialChar() ? '✔' : '✖' }}</span>
-                One special character
-              </div>
+              <div class="rule" [class.valid]="hasMinLength()">✔ Min 8 characters</div>
+              <div class="rule" [class.valid]="hasUpperCase()">✔ Uppercase</div>
+              <div class="rule" [class.valid]="hasLowerCase()">✔ Lowercase</div>
+              <div class="rule" [class.valid]="hasNumber()">✔ Number</div>
+              <div class="rule" [class.valid]="hasSpecialChar()">✔ Special character</div>
             </div>
-
           </div>
-
         </div>
 
+        <!-- ================== ROW 3 ================== -->
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Phone</label>
-            <input type="text" class="form-control" formControlName="phone">
+            <label class="form-label">
+              Phone <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   type="text"
+                   formControlName="phone"
+                   placeholder="Enter phone number"
+                   [class.is-invalid]="shouldShowError('phone')">
+            <div class="invalid-feedback" *ngIf="hasError('phone','required')">
+              Phone number is required
+            </div>
           </div>
 
+          <!-- PATIENT ONLY -->
           <div class="form-group" *ngIf="selectedRole === 'PATIENT'">
-            <label class="form-label">Address</label>
-            <input type="text" class="form-control" formControlName="address">
+            <label class="form-label">
+              Address <span class="required-asterisk">*</span>
+            </label>
+            <input class="form-control"
+                   type="text"
+                   formControlName="address"
+                   placeholder="Enter your address"
+                   [class.is-invalid]="shouldShowError('address')">
+            <div class="invalid-feedback" *ngIf="hasError('address','required')">
+              Address is required
+            </div>
           </div>
         </div>
 
+        <!-- ================== DOCTOR ONLY ================== -->
         <div *ngIf="selectedRole === 'DOCTOR'" class="doctor-fields">
           <div class="form-row">
             <div class="form-group">
-              <label>Specialty</label>
+              <label>
+                Specialty <span class="required-asterisk">*</span>
+              </label>
               <select class="form-control"
                       formControlName="specialty"
                       [class.is-invalid]="shouldShowError('specialty')">
-                <option value="">Select</option>
+                <option value="">Select specialty</option>
                 <option *ngFor="let s of specialties" [value]="s">{{ s }}</option>
               </select>
-              <div class="invalid-feedback" *ngIf="hasError('specialty', 'required')">
+              <div class="invalid-feedback" *ngIf="hasError('specialty','required')">
                 Specialty is required
               </div>
             </div>
 
             <div class="form-group">
-              <label>Availability</label>
-              <input type="text"
-                     class="form-control"
+              <label>
+                Availability <span class="required-asterisk">*</span>
+              </label>
+              <input class="form-control"
+                     type="text"
                      formControlName="availability"
+                     placeholder="Mon–Fri 9AM–5PM"
                      [class.is-invalid]="shouldShowError('availability')">
-              <div class="invalid-feedback" *ngIf="hasError('availability', 'required')">
+              <div class="invalid-feedback" *ngIf="hasError('availability','required')">
                 Availability is required
               </div>
             </div>
@@ -171,8 +162,8 @@
         </div>
 
         <div class="submit-wrapper">
-          <button type="submit"
-                  class="btn btn-primary reg-submit-btn"
+          <button class="btn btn-primary reg-submit-btn"
+                  type="submit"
                   [disabled]="isLoading">
             {{ isLoading ? 'Registering...' : 'Create Account' }}
           </button>

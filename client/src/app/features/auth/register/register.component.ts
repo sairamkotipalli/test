@@ -48,10 +48,10 @@ export class RegisterComponent implements OnInit {
       ]],
       email: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required]],
-      phone: [''],
-      address: [''],
-      specialty: [''],
-      availability: [''],
+      phone: ['',[Validators.required]],
+      address: ['',[Validators.required]],
+      specialty: ['',[Validators.required]],
+      availability: ['',[Validators.required]],
     });
 
     // default role validators (PATIENT -> none for specialty/availability)
