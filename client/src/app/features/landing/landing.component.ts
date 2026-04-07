@@ -9,7 +9,6 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   currentSlide = 0;
   autoPlayInterval: any;
 
-  // RESTORED: Your original Health Tips
   healthTips = [
     {
       image: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=800&q=80',

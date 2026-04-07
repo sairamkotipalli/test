@@ -62,9 +62,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  /* ===========================
-     VALIDATION VISIBILITY HELPERS
-     =========================== */
 
   private ctrl(name: string): AbstractControl {
     return this.registerForm.get(name) as AbstractControl;
@@ -169,8 +166,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
-      // this will show validators for all fields ONLY after submit attempt
-      // (if you want strictly only user touch, remove markAllAsTouched)
       this.registerForm.markAllAsTouched();
       this.updatePasswordRulesVisibility();
       return;
