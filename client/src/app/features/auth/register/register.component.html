@@ -92,14 +92,6 @@
               <div class="rule" [class.valid]="hasNumber()">✔ Number</div>
               <div class="rule" [class.valid]="hasSpecialChar()">✔ Special character</div>
             </div>
-
-            <div class="invalid-feedback" *ngIf="shouldShowError('password')">
-              <ng-container *ngIf="hasError('password','required')">Password is required</ng-container>
-              <ng-container *ngIf="hasError('password','minlength')">Minimum 8 characters required</ng-container>
-              <ng-container *ngIf="hasError('password','pattern')">
-                Must include uppercase, lowercase, number & special character
-              </ng-container>
-            </div>
           </div>
         </div>
 
