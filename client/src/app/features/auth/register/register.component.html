@@ -24,7 +24,6 @@
     <div class="auth-card glass">
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-        <!-- ================== ROW 1 ================== -->
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">
@@ -34,9 +33,11 @@
                    type="text"
                    formControlName="name"
                    placeholder="Enter your full name"
+                   (input)="onNameInput($event)"
                    [class.is-invalid]="shouldShowError('name')">
-            <div class="invalid-feedback" *ngIf="hasError('name','required')">
-              Full name is required
+            <div class="invalid-feedback" *ngIf="shouldShowError('name')">
+              <ng-container *ngIf="hasError('name','required')">Full name is required</ng-container>
+              <ng-container *ngIf="hasError('name','pattern')">Only alphabets and spaces allowed</ng-container>
             </div>
           </div>
 
@@ -55,7 +56,6 @@
           </div>
         </div>
 
-        <!-- ================== ROW 2 ================== -->
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">
@@ -92,10 +92,17 @@
               <div class="rule" [class.valid]="hasNumber()">✔ Number</div>
               <div class="rule" [class.valid]="hasSpecialChar()">✔ Special character</div>
             </div>
+
+            <div class="invalid-feedback" *ngIf="shouldShowError('password')">
+              <ng-container *ngIf="hasError('password','required')">Password is required</ng-container>
+              <ng-container *ngIf="hasError('password','minlength')">Minimum 8 characters required</ng-container>
+              <ng-container *ngIf="hasError('password','pattern')">
+                Must include uppercase, lowercase, number & special character
+              </ng-container>
+            </div>
           </div>
         </div>
 
-        <!-- ================== ROW 3 ================== -->
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">
@@ -104,14 +111,18 @@
             <input class="form-control"
                    type="text"
                    formControlName="phone"
-                   placeholder="Enter phone number"
+                   placeholder="Enter 10-digit phone number"
+                   inputmode="numeric"
+                   maxlength="10"
+                   (input)="onPhoneInput($event)"
                    [class.is-invalid]="shouldShowError('phone')">
-            <div class="invalid-feedback" *ngIf="hasError('phone','required')">
-              Phone number is required
+            <div class="invalid-feedback" *ngIf="shouldShowError('phone')">
+              <ng-container *ngIf="hasError('phone','required')">Phone number is required</ng-container>
+              <ng-container *ngIf="hasError('phone','pattern')">Only digits allowed</ng-container>
+              <ng-container *ngIf="hasError('phone','minlength') || hasError('phone','maxlength')">Phone must be 10 digits</ng-container>
             </div>
           </div>
 
-          <!-- PATIENT ONLY -->
           <div class="form-group" *ngIf="selectedRole === 'PATIENT'">
             <label class="form-label">
               Address <span class="required-asterisk">*</span>
@@ -121,13 +132,12 @@
                    formControlName="address"
                    placeholder="Enter your address"
                    [class.is-invalid]="shouldShowError('address')">
-            <div class="invalid-feedback" *ngIf="hasError('address','required')">
+            <div class="invalid-feedback" *ngIf="shouldShowError('address')">
               Address is required
             </div>
           </div>
         </div>
 
-        <!-- ================== DOCTOR ONLY ================== -->
         <div *ngIf="selectedRole === 'DOCTOR'" class="doctor-fields">
           <div class="form-row">
             <div class="form-group">
@@ -140,7 +150,7 @@
                 <option value="">Select specialty</option>
                 <option *ngFor="let s of specialties" [value]="s">{{ s }}</option>
               </select>
-              <div class="invalid-feedback" *ngIf="hasError('specialty','required')">
+              <div class="invalid-feedback" *ngIf="shouldShowError('specialty')">
                 Specialty is required
               </div>
             </div>
@@ -154,7 +164,7 @@
                      formControlName="availability"
                      placeholder="Mon–Fri 9AM–5PM"
                      [class.is-invalid]="shouldShowError('availability')">
-              <div class="invalid-feedback" *ngIf="hasError('availability','required')">
+              <div class="invalid-feedback" *ngIf="shouldShowError('availability')">
                 Availability is required
               </div>
             </div>

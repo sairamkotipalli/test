@@ -15,7 +15,6 @@ export class RegisterComponent implements OnInit {
   selectedRole = 'PATIENT';
   showPassword = false;
 
-  // Password rules visibility
   showRules = false;
   private passwordFocused = false;
 
@@ -41,20 +40,32 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+
       password: ['', [
         Validators.required,
         Validators.minLength(8),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).+$/)
       ]],
+
       email: ['', [Validators.required, Validators.email]],
-      name: ['', [Validators.required]],
-      phone: ['',[Validators.required]],
-      address: ['',[Validators.required]],
-      specialty: ['',[Validators.required]],
-      availability: ['',[Validators.required]],
+
+      name: ['', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z ]+$/) // only alphabets + spaces
+      ]],
+
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]+$/),    // digits only
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]],
+
+      address: ['', [Validators.required]],
+      specialty: ['', [Validators.required]],
+      availability: ['', [Validators.required]],
     });
 
-    // default role validators (PATIENT -> none for specialty/availability)
     this.selectRole(this.selectedRole);
   }
 
@@ -62,27 +73,18 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-
   private ctrl(name: string): AbstractControl {
     return this.registerForm.get(name) as AbstractControl;
   }
 
-  // show error only after user touched that control
   shouldShowError(name: string): boolean {
     const c = this.ctrl(name);
     return !!c && c.touched && c.invalid;
   }
 
-  // show a specific error only after touched
   hasError(name: string, error: string): boolean {
     const c = this.ctrl(name);
     return !!c && c.touched && c.hasError(error);
-  }
-
-  // password rules panel: show only if password touched (optionally also when focused)
-  shouldShowPasswordRules(): boolean {
-    const c = this.ctrl('password');
-    return !!c && (c.touched || this.passwordFocused) && !this.isPasswordEmpty();
   }
 
   private isPasswordEmpty(): boolean {
@@ -98,7 +100,7 @@ export class RegisterComponent implements OnInit {
     this.passwordFocused = false;
     this.f['password']?.markAsTouched();
     this.updatePasswordRulesVisibility();
-        this.showRules = false;
+    this.showRules = false;
   }
 
   onPasswordInput(): void {
@@ -109,8 +111,6 @@ export class RegisterComponent implements OnInit {
     const c = this.ctrl('password');
     this.showRules = !!c && (c.touched || this.passwordFocused) && !this.isPasswordEmpty();
   }
-
-  /* ===== Password Validation Helpers ===== */
 
   hasMinLength(): boolean {
     return (this.f['password'].value || '').length >= 8;
@@ -132,36 +132,72 @@ export class RegisterComponent implements OnInit {
     return /[@$!%*?&]/.test(this.f['password'].value || '');
   }
 
-  /* =========================== */
+  /* ✅ Input restrictions (live sanitizing) */
+  onNameInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cleaned = input.value.replace(/[^A-Za-z ]/g, '');
+    if (cleaned !== input.value) {
+      input.value = cleaned;
+      this.f['name'].setValue(cleaned, { emitEvent: false });
+    }
+  }
+
+  onPhoneInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const cleaned = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+    if (cleaned !== input.value) {
+      input.value = cleaned;
+      this.f['phone'].setValue(cleaned, { emitEvent: false });
+    }
+  }
 
   selectRole(role: string): void {
     this.selectedRole = role;
 
     const specialtyCtrl = this.registerForm.get('specialty');
     const availabilityCtrl = this.registerForm.get('availability');
+    const addressCtrl = this.registerForm.get('address');
 
-    if (!specialtyCtrl || !availabilityCtrl) return;
+    if (!specialtyCtrl || !availabilityCtrl || !addressCtrl) return;
 
     if (role === 'DOCTOR') {
       specialtyCtrl.setValidators([Validators.required]);
       availabilityCtrl.setValidators([Validators.required]);
-    } else {
+
+      addressCtrl.clearValidators();
+      addressCtrl.setValue('');
+      addressCtrl.markAsUntouched();
+      addressCtrl.markAsPristine();
+    } else if (role === 'PATIENT') {
+      addressCtrl.setValidators([Validators.required]);
+
       specialtyCtrl.clearValidators();
       availabilityCtrl.clearValidators();
-
-      // optional: reset values when not doctor
       specialtyCtrl.setValue('');
       availabilityCtrl.setValue('');
-
-      // important: also reset touched state so errors don't show when switching roles
       specialtyCtrl.markAsUntouched();
       specialtyCtrl.markAsPristine();
       availabilityCtrl.markAsUntouched();
       availabilityCtrl.markAsPristine();
+    } else {
+      specialtyCtrl.clearValidators();
+      availabilityCtrl.clearValidators();
+      specialtyCtrl.setValue('');
+      availabilityCtrl.setValue('');
+      specialtyCtrl.markAsUntouched();
+      specialtyCtrl.markAsPristine();
+      availabilityCtrl.markAsUntouched();
+      availabilityCtrl.markAsPristine();
+
+      addressCtrl.clearValidators();
+      addressCtrl.setValue('');
+      addressCtrl.markAsUntouched();
+      addressCtrl.markAsPristine();
     }
 
     specialtyCtrl.updateValueAndValidity();
     availabilityCtrl.updateValueAndValidity();
+    addressCtrl.updateValueAndValidity();
   }
 
   onSubmit(): void {
