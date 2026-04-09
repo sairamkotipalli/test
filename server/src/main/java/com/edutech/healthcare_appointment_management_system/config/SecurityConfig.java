@@ -1,5 +1,5 @@
 package com.edutech.healthcare_appointment_management_system.config;
-
+ 
 import com.edutech.healthcare_appointment_management_system.jwt.JwtRequestFilter;
 import com.edutech.healthcare_appointment_management_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,51 +15,63 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+ 
 import java.util.Arrays;
-
+ 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+ 
     @Autowired
     private UserService userService;
-
+ 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
-
+ 
+    // Authentication (JWT + UserDetailsService)
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService)
+            .passwordEncoder(passwordEncoder());
     }
-
+ 
+    // Authorization (ROLE‑based access)
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+ 
         http
             .cors().and()
             .csrf().disable()
+ 
             .authorizeRequests()
-
-            // ─── PUBLIC: Login & Registration (no token required) ──────────
+ 
+            //  PUBLIC APIs (no token needed)
             .antMatchers(
                 "/api/user/login",
                 "/api/patient/register",
                 "/api/doctor/register",
                 "/api/receptionist/register"
             ).permitAll()
-
-            // ─── PATIENT only endpoints ────────────────────────────────────
+ 
+            //  PATIENT + RECEPTIONIST shared access
             .antMatchers(
                 "/api/patient/profile",
                 "/api/patient/doctors",
-                "/api/patient/doctors/search",
+                "/api/patient/doctors/search"
+            ).hasAnyRole("PATIENT", "RECEPTIONIST")
+ 
+            //  PATIENT only
+            .antMatchers(
                 "/api/patient/appointment",
                 "/api/patient/appointments",
                 "/api/patient/medicalrecords"
             ).hasRole("PATIENT")
-
-            // ─── DOCTOR only endpoints ─────────────────────────────────────
+ 
+            //  DOCTOR only
             .antMatchers(
                 "/api/doctor/profile",
                 "/api/doctor/appointments",
@@ -70,8 +82,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/doctor/patients/*/history",
                 "/api/doctor/availability"
             ).hasRole("DOCTOR")
-
-            // ─── RECEPTIONIST only endpoints ───────────────────────────────
+ 
+            //  RECEPTIONIST only
             .antMatchers(
                 "/api/receptionist/profile",
                 "/api/receptionist/patients",
@@ -86,41 +98,46 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/receptionist/appointment",
                 "/api/receptionist/appointment-reschedule/**"
             ).hasRole("RECEPTIONIST")
-
-            // ─── SHARED: Paginated appointments (Doctor + Receptionist) ────
+ 
+            //  SHARED (Doctor + Receptionist)
             .antMatchers("/api/appointments/**")
-                .hasAnyRole("DOCTOR", "RECEPTIONIST")
-
-            // ─── Deny everything else ──────────────────────────────────────
+            .hasAnyRole("DOCTOR", "RECEPTIONIST")
+ 
+            //  Everything else must be authenticated
             .anyRequest().authenticated()
-
+ 
             .and()
+ 
+            //  STATELESS (JWT)
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+ 
+        //  JWT Filter
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
+ 
+    //  CORS Configuration (Frontend safe)
     @Bean
-    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
-        org.springframework.web.cors.CorsConfiguration config =
-                new org.springframework.web.cors.CorsConfiguration();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setExposedHeaders(Arrays.asList("Authorization"));
         config.setAllowCredentials(true);
-        org.springframework.web.cors.UrlBasedCorsConfigurationSource source =
-                new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+ 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
+ 
+    // Password Encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+ 
+    //  Authentication Manager
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
